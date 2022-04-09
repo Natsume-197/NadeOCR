@@ -8,17 +8,27 @@ from os import path
 import tkinter as tk
 import pyperclip as pc
 from PIL import ImageGrab
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QKeySequence
 from google.cloud import vision
 import simpleaudio as sa
 from google.oauth2 import service_account
 from PyQt5 import QtWidgets, QtCore, QtGui
-from PyQt5.QtWidgets import QApplication, QSystemTrayIcon, QMenu
+
+from PyQt5.QtWidgets import QApplication, QSystemTrayIcon, QMenu, QShortcut
 import toast
 from time import sleep
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QObject, pyqtSignal
 import configparser
 
+import keyboard
+
+
+class KeyBoardManager(QObject):
+    F1Signal = pyqtSignal()
+
+    def start(self):
+        keyboard.add_hotkey("Shift+Z", self.F1Signal.emit, suppress=True)
+        
 class App:
     def __init__(self):
         self.app = QApplication(sys.argv)
@@ -30,6 +40,10 @@ class App:
 
         self.scanAction = menu.addAction('Escanear')
         self.scanAction.triggered.connect(self.crop)
+        self.manager = KeyBoardManager()
+        self.manager.F1Signal.connect(self.crop)
+        self.scanAction.setShortcut(QKeySequence("Shift+Z"))
+        self.manager.start()
 
         self.splitAction = menu.addAction('Modo Texthooker')
         self.splitAction.setCheckable(True)
@@ -52,6 +66,7 @@ class App:
         self.trayIcon.activated.connect(self.onTrayIconActivated)
 
         self.trayIcon.show()
+             
     
     def onTrayIconActivated(self, reason):
       if reason == QSystemTrayIcon.DoubleClick:
@@ -219,3 +234,5 @@ if __name__ == "__main__":
         file1 = open("log.txt","w")
         file1.write(str(e))
         file1.close()
+
+

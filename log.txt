@@ -1,1 +1,1 @@
-setCheckable(self, bool): argument 1 has unexpected type 'str'
+'KeyBoardManager' object has no attribute 'setShortcut'
