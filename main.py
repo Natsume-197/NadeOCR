@@ -262,12 +262,12 @@ class MyWidget(QWidget):
         abspath = os.path.abspath(sys.argv[0])
         dname = os.path.dirname(abspath)
 
-        if path.isfile(dname+'/Resources/Images') == False:
-            os.makedirs(dname+'/Resources/Images', exist_ok=True)
-        os.chdir(dname+"/Resources/Images")
-        
+        resources_images_dir = os.path.join(dname, "Resources", "Images")
+        if not path.isfile(resources_images_dir):
+            os.makedirs(resources_images_dir, exist_ok=True)
+
         try:
-            img.save('capture.png')
+            img.save(os.path.join(resources_images_dir, 'capture.png'))
             img = cv2.cvtColor(np.array(img), cv2.COLOR_BGR2RGB)
             self.scan()
         except Exception as error:
