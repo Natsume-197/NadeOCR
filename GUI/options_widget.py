@@ -5,12 +5,15 @@ from GUI.functions.utils.extra import read_config_ini, edit_config_ini
 from PySide6.QtWidgets import QSizePolicy, QSpacerItem, QWidget, QTabWidget, QLabel, QComboBox, QFrame, QCheckBox, QRadioButton, QPushButton
 
 class OptionsWidget(QWidget):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent):
+        self.parent = parent 
+        super(OptionsWidget, self).__init__()
         self.setWindowTitle("Opciones")
-        self.setFixedSize(435, 275)
+        self.setFixedSize(400, 285)
         self.setWindowIcon(QIcon("./resources/assets/icon.ico"))
 
+        # self.parent.print_x("invocado desde la clase options")
+                
         layout = QtWidgets.QGridLayout()
         self.setLayout(layout)
         
@@ -33,7 +36,7 @@ class OptionsWidget(QWidget):
         # General Tab
         self.label_interface_user = QLabel("Interfaz de usuario")
         self.label_interface_user.setFont(QFont("Arial", 9, weight=QFont.Bold))
-        self.tab_general.layout.addWidget(self.label_interface_user, 0, 0)
+        self.tab_general.layout.addWidget(self.label_interface_user, 0, 0, 1, 4)
         
         self.label_language = QLabel("Idioma")
         self.tab_general.layout.addWidget(self.label_language, 1, 0)
@@ -54,26 +57,28 @@ class OptionsWidget(QWidget):
         self.tab_general.layout.addWidget(self.label_preferences_user, 4, 0)
         
         self.checkbox_run_startup = QCheckBox("Ejecutar al arranque", self)
-        self.tab_general.layout.addWidget(self.checkbox_run_startup, 5, 0) 
+        self.tab_general.layout.addWidget(self.checkbox_run_startup, 5, 0, 1, 2) 
         
         config_reader = read_config_ini()
         
         hotkey = config_reader["user_settings"]["shortcut_key"]
 
-        self.label_preference_hotkey = QLabel("Atajo para escanear")
-        self.tab_general.layout.addWidget(self.label_preference_hotkey, 6, 0)
-        self.button_input_hotkey = QPushButton(self)
-        self.button_input_hotkey.setText(hotkey)
-        self.tab_general.layout.addWidget(self.button_input_hotkey, 6, 1, 1, 3)    
-        self.button_input_hotkey.clicked.connect(self.on_button_hotkey_click)
+        self.label_preference_hotkey = QLabel("Atajo para escaneo rápido")
+        self.tab_general.layout.addWidget(self.label_preference_hotkey, 6, 0, 1, 2)
+        self.parent.button_input_hotkey = QPushButton(self)
+        self.parent.button_input_hotkey.setText(hotkey)
+        self.tab_general.layout.addWidget(self.parent.button_input_hotkey, 6, 2, 1 , 2)    
+        self.parent.button_input_hotkey.clicked.connect(self.on_button_hotkey_click)
         
         self.label_preference_scan = QLabel("Motor de escaneo preferido" )
-        self.tab_general.layout.addWidget(self.label_preference_scan, 7, 0)
+        self.tab_general.layout.addWidget(self.label_preference_scan, 7, 0, 1, 3)
         
         self.radio_button_google = QRadioButton("Google")
         self.tab_general.layout.addWidget(self.radio_button_google, 8, 0)
+        self.radio_button_mangaocr = QRadioButton("MangaOCR")
+        self.tab_general.layout.addWidget(self.radio_button_mangaocr, 8, 1)
         self.radio_button_tesseract = QRadioButton("Tesseract")
-        self.tab_general.layout.addWidget(self.radio_button_tesseract, 8, 1)
+        self.tab_general.layout.addWidget(self.radio_button_tesseract, 8, 2)
         self.radio_button_tesseract.setDisabled(True)       
         self.radio_button_easyocr = QRadioButton("EasyOCR")
         self.tab_general.layout.addWidget(self.radio_button_easyocr, 8, 3)   
@@ -84,6 +89,9 @@ class OptionsWidget(QWidget):
         # OCR client selection based on the config file
         if(ocr_provider == "Google"):
             self.radio_button_google.setChecked(True)
+            
+        elif(ocr_provider == "MangaOCR"):
+            self.radio_button_mangaocr.setChecked(True)
             
         elif(ocr_provider == "Tesseract"):
             self.radio_button_tesseract.setChecked(True)
@@ -102,7 +110,7 @@ class OptionsWidget(QWidget):
         self.tab_general.layout.addWidget(self.button_accept, 15,2)
         self.tab_general.layout.addWidget(self.button_cancel, 15,3)
 
-        layout.setRowStretch(6, 1)  
+        layout.setRowStretch(6, 2)  
         self.show()
         
     def accept_button(self):
@@ -112,12 +120,14 @@ class OptionsWidget(QWidget):
             edit_config_ini("provider_settings", "ocr_provider", "Tesseract")
         elif(self.radio_button_easyocr.isChecked()):
             edit_config_ini("provider_settings", "ocr_provider", "EasyOCR")
-        
+        elif(self.radio_button_mangaocr.isChecked()):
+            edit_config_ini("provider_settings", "ocr_provider", "MangaOCR")
+                
         self.close()
 
     def cancel_button(self):
         self.close()
          
     def on_button_hotkey_click(self):
-        self.input_hotkey_window = MainHotkeyExecution()
+        self.input_hotkey_window = MainHotkeyExecution(parent=self.parent)
         

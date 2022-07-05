@@ -3,10 +3,11 @@ import easyocr
 import cv2 
 import numpy as np
 
+reader = easyocr.Reader(['ja', 'en'], gpu=True)
+
 class EasyOCRProvider():
     def scan_easyocr():
         path = './resources/temp/capture.png'
-        reader = easyocr.Reader(['ja', 'en'], gpu=True)
         result = reader.readtext(path, detail = 0,  paragraph=True)
         print(result)
        

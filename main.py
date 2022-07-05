@@ -2,7 +2,6 @@ import sys
 import ctypes
 from GUI.tray_widget import SystemTray
 from PySide6.QtWidgets import QApplication 
-from GUI.input_hotkey_widget import InputHotkeyWidget
 
 class MainApp: 
     def __init__(self):

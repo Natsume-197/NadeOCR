@@ -1,12 +1,11 @@
-from PySide6.QtWidgets import QWidget, QLabel, QPushButton
-from PySide6.QtGui import QIcon, Qt
-from PySide6 import QtWidgets
-from PySide6.QtCore import QThread, QObject, Signal
-from GUI.functions.utils.constants import keycode_to_string
 from pynput import keyboard
+from PySide6 import QtWidgets
+from PySide6.QtGui import QIcon, Qt
 from pynput.keyboard import Controller, Key
-from threading import Timer
-from GUI.functions.utils.extra import read_config_ini, edit_config_ini
+from PySide6.QtCore import QThread, QObject, Signal
+from GUI.functions.utils.extra import edit_config_ini
+from PySide6.QtWidgets import QWidget, QLabel, QPushButton
+from GUI.functions.utils.constants import keycode_to_string
 
 SHIFT_STATE = False
 CONTROL_STATE = False
@@ -45,7 +44,7 @@ class ListenKeyboard(QThread):
                     ARRAY.append("alt")
                 else:
                     pass
-                    #print(key)
+                    print(key)
                 if key.char in keycode_to_string:
                     ARRAY.append(keycode_to_string[key.char])
                 else:
@@ -81,8 +80,10 @@ class InputHotkeyWidget(QWidget):
     
     listener_thread = ListenKeyboard()
     
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent):
+        self.parent = parent
+        super(InputHotkeyWidget, self).__init__()
+                
         self.initUi()
 
         # Trigger listener
@@ -92,7 +93,7 @@ class InputHotkeyWidget(QWidget):
         self.listener_thread.start()
         
     def initUi(self):
-        self.setWindowTitle("Configuración Atajo")
+        self.setWindowTitle("Atajo")
         self.setFixedSize(335, 100)
         self.setWindowIcon(QIcon("./resources/assets/icon.ico"))
         
@@ -118,12 +119,21 @@ class InputHotkeyWidget(QWidget):
     
     def accept_button(self):
         edit_config_ini("user_settings", "shortcut_key", CURRENT_VALUE)
+
+        keyboard = Controller()
+        keyboard.press(Key.esc)
+        keyboard.release(Key.esc)
+
+        self.parent.shortcut_config()
+        self.parent.button_input_hotkey.setText(CURRENT_VALUE)
+                        
         self.close()
             
     def cancel_button(self):
         keyboard = Controller()
         keyboard.press(Key.esc)
         keyboard.release(Key.esc)
+        
         self.close()
         
     def update_label_hotkey(self, textLabel):
@@ -132,6 +142,7 @@ class InputHotkeyWidget(QWidget):
         CURRENT_VALUE = textLabel
         
 class MainHotkeyExecution(QObject):
-    def __init__(self):
-        self.input_widget = InputHotkeyWidget()
-        Timer(3,  self.input_widget.update_label_hotkey()).start()
+    def __init__(self, parent):
+        self.parent = parent
+        super(MainHotkeyExecution, self).__init__()
+        self.input_widget = InputHotkeyWidget(parent=self.parent)

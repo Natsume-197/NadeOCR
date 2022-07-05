@@ -5,11 +5,11 @@ from PySide6.QtWidgets import QSystemTrayIcon, QMenu
 from GUI.functions.keyboard_manager import KeyBoardManager
 from PySide6.QtGui import QIcon, QAction, QActionGroup, QKeySequence
 from GUI.functions.utils.extra import read_config_ini, to_boolean, edit_config_ini
+from GUI.input_hotkey_widget import InputHotkeyWidget
 
 icon_path = "./resources/assets/icon.ico"
 
 keyboard_manager = KeyBoardManager()
-shortcut_key = 'Alt+X'
 
 class SystemTray(QSystemTrayIcon):
     def __init__(self, parent=None):
@@ -58,14 +58,22 @@ class SystemTray(QSystemTrayIcon):
         self.setToolTip('NadeOCR')
         self.activated.connect(self.on_icon_click)
         
-        # Shortcut configuration
+        self.shortcut_config()
+        
+        self.show()
+        
+    def shortcut_config(self):
+        config_reader = read_config_ini()
+        shortcut_key = config_reader["user_settings"]["shortcut_key"]
         keyboard_manager.F1Signal.connect(self.on_scan_click)
         self._scan_action.setShortcut(QKeySequence(shortcut_key))
         keyboard_manager.start()
         
-        self.show()
-         
     # Methods used for the actions available in the menu 
+    
+    def print_x(self, text):
+        print(text)
+        
     def on_icon_click(self, reason):
         if reason == self.DoubleClick:
             self.on_scan_click()   
@@ -83,4 +91,4 @@ class SystemTray(QSystemTrayIcon):
         edit_config_ini("user_settings", "remove_new_line", str(self.split_remove_nl_action.isChecked()))
           
     def on_options_click(self):
-        self.window_options = OptionsWidget()
+        self.window_options = OptionsWidget(parent=self)

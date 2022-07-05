@@ -11,6 +11,7 @@ from PySide6.QtWidgets import QWidget, QApplication
 from GUI.functions.google_provider import GoogleProvider
 from GUI.functions.utils.extra import read_config_ini
 from GUI.functions.easyocr_provider import EasyOCRProvider
+from GUI.functions.mangaocr_provider import MangaOcrProvider
 
 class CropWidget(QWidget): 
     def __init__(self):
@@ -30,14 +31,14 @@ class CropWidget(QWidget):
                 background: black;
             }
         ''')
-        self.setWindowOpacity(0.3)
+        self.setWindowOpacity(0.2)
         self.show()
         self.setCursor(QtGui.QCursor(Qt.CrossCursor))
     
     def paintEvent(self, event):
         qp = QtGui.QPainter(self)
-        qp.setPen(QtGui.QPen(QtGui.QColor('white'), 2))
-        qp.setBrush(QtGui.QColor(255, 255, 255, 128))
+        qp.setPen(QtGui.QPen(QtGui.QColor('white'), 3))
+        qp.setBrush(QtGui.QColor(255, 255, 255, 150))
         qp.drawRect(QtCore.QRect(self.begin, self.end))
 
     def mousePressEvent(self, event):
@@ -79,9 +80,11 @@ class CropWidget(QWidget):
             if(ocr_provider == "Google"):   
                 GoogleProvider.scan_google()
             elif(ocr_provider == "Tesseract"):
-                print("Tesseract")
+                pass
             elif(ocr_provider == "EasyOCR"):
                 EasyOCRProvider.scan_easyocr()
+            elif(ocr_provider == "MangaOCR"):
+                MangaOcrProvider.scan_mangaocr()
             
         except Exception as error:
             print(error)
