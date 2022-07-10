@@ -17,7 +17,7 @@ class MainApp:
     # Keeps the main process running until exit
     def run(self):
         sys.exit(self._app.exec())
-
+        
     def __os_specific_setup(self):
         if platform.system() == "Windows":
             import ctypes
@@ -25,7 +25,6 @@ class MainApp:
             id_app = 'natsume.nadeocr.0.3.0' 
             ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(id_app)
 
-        
 if __name__ == '__main__':
     app = MainApp()
     app.run()

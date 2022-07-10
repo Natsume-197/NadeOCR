@@ -92,12 +92,6 @@ class OptionsWidget(QWidget):
             
         elif(ocr_provider == "MangaOCR"):
             self.radio_button_mangaocr.setChecked(True)
-            
-        elif(ocr_provider == "Tesseract"):
-            self.radio_button_tesseract.setChecked(True)
-            
-        elif(ocr_provider == "EasyOCR"):
-            self.radio_button_easyocr.setChecked(True)
 
         self.spaceItem = QSpacerItem(100, 10, QSizePolicy.Expanding)
         self.tab_general.layout.addItem(self.spaceItem, 9, 0)  
@@ -116,10 +110,6 @@ class OptionsWidget(QWidget):
     def accept_button(self):
         if self.radio_button_google.isChecked():
             edit_config_ini("provider_settings", "ocr_provider", "Google")
-        elif(self.radio_button_tesseract.isChecked()):
-            edit_config_ini("provider_settings", "ocr_provider", "Tesseract")
-        elif(self.radio_button_easyocr.isChecked()):
-            edit_config_ini("provider_settings", "ocr_provider", "EasyOCR")
         elif(self.radio_button_mangaocr.isChecked()):
             edit_config_ini("provider_settings", "ocr_provider", "MangaOCR")
                 

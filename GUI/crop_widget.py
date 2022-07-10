@@ -8,9 +8,8 @@ from PIL import ImageGrab
 from PySide6.QtGui import Qt
 from PySide6 import QtCore, QtGui
 from PySide6.QtWidgets import QWidget, QApplication
-from GUI.functions.google_provider import GoogleProvider
 from GUI.functions.utils.extra import read_config_ini
-from GUI.functions.easyocr_provider import EasyOCRProvider
+from GUI.functions.google_provider import GoogleProvider
 from GUI.functions.mangaocr_provider import MangaOcrProvider
 
 class CropWidget(QWidget): 
@@ -78,13 +77,9 @@ class CropWidget(QWidget):
             ocr_provider = config_reader["provider_settings"]["ocr_provider"]
             
             if(ocr_provider == "Google"):   
-                GoogleProvider.scan_google()
-            elif(ocr_provider == "Tesseract"):
-                pass
-            elif(ocr_provider == "EasyOCR"):
-                EasyOCRProvider.scan_easyocr()
+                GoogleProvider.scan_google(self)
             elif(ocr_provider == "MangaOCR"):
-                MangaOcrProvider.scan_mangaocr()
+                MangaOcrProvider.scan_mangaocr(self)
             
         except Exception as error:
             print(error)

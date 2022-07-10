@@ -5,10 +5,8 @@ from PySide6.QtWidgets import QSystemTrayIcon, QMenu
 from GUI.functions.keyboard_manager import KeyBoardManager
 from PySide6.QtGui import QIcon, QAction, QActionGroup, QKeySequence
 from GUI.functions.utils.extra import read_config_ini, to_boolean, edit_config_ini
-from GUI.input_hotkey_widget import InputHotkeyWidget
 
 icon_path = "./resources/assets/icon.ico"
-
 keyboard_manager = KeyBoardManager()
 
 class SystemTray(QSystemTrayIcon):
@@ -21,13 +19,16 @@ class SystemTray(QSystemTrayIcon):
         self._scan_action = menu.addAction("Escanear", self.on_scan_click)
         
         menu.addSeparator()
-         
-        normal_mode_action = QAction("Modo Normal", None, checkable=True)
         
-        action_group = QActionGroup(self)
-        action_group.addAction(normal_mode_action)
+        change_mode_menu = menu.addMenu("Cambiar modo")
+        normal_mode_action = QAction("Normal", self, checkable=True)
+        hiragana_mode_action = QAction("Hiragana", self, checkable=True)
+        katakana_mode_action = QAction("Katakana", self, checkable=True)
         normal_mode_action.setChecked(True)
-        menu.addActions(action_group.actions())
+
+        change_mode_menu.addAction(normal_mode_action)
+        change_mode_menu.addAction(hiragana_mode_action)
+        change_mode_menu.addAction(katakana_mode_action)
          
         menu.addSeparator()
         
@@ -70,10 +71,6 @@ class SystemTray(QSystemTrayIcon):
         keyboard_manager.start()
         
     # Methods used for the actions available in the menu 
-    
-    def print_x(self, text):
-        print(text)
-        
     def on_icon_click(self, reason):
         if reason == self.DoubleClick:
             self.on_scan_click()   
