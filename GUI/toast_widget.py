@@ -13,9 +13,9 @@ class QToaster(QtWidgets.QFrame):
 
         self.setStyleSheet('''
             QToaster {
-                border: 1px solid black;
+                border: 1px solid white;
                 border-radius: 4px; 
-                background: palette(window);
+                background: white;
             }
         ''')
         # alternatively:
@@ -115,7 +115,7 @@ class QToaster(QtWidgets.QFrame):
     def showMessage(parent, message, 
                     icon=QtWidgets.QStyle.SP_MessageBoxInformation, 
                     corner=QtCore.Qt.TopLeftCorner, margin=10, closable=True, 
-                    timeout=5000, desktop=False, parentWindow=True):
+                    timeout=3000, desktop=False, parentWindow=True):
 
         if parent and parentWindow:
             parent = parent.window()
@@ -169,13 +169,13 @@ class QToaster(QtWidgets.QFrame):
             labelIcon.setPixmap(icon.pixmap(size))
 
         self.label = QtWidgets.QLabel(message)
+        self.label.setStyleSheet("QLabel { color: black; }")
         self.layout().addWidget(self.label)
 
         if closable:
             self.closeButton = QtWidgets.QToolButton()
             self.layout().addWidget(self.closeButton)
-            closeIcon = self.style().standardIcon(
-                QtWidgets.QStyle.SP_TitleBarCloseButton)
+            closeIcon = self.style().standardIcon(QtWidgets.QStyle.SP_TitleBarCloseButton)
             self.closeButton.setIcon(closeIcon)
             self.closeButton.setAutoRaise(True)
             self.closeButton.clicked.connect(self.close)
@@ -213,5 +213,13 @@ class QToaster(QtWidgets.QFrame):
         parent = None
         desktop = True
         # 'TopLeft', 'TopRight', 'BottomRight', 'BottomLeft'
-        corner = QtCore.Qt.Corner(corner)
+    
+        corner_to_int = {
+            'TopLeft' : 0,
+            'TopRight' : 1,
+            'BottomLeft' : 2,
+            'BottomRight' : 3
+        }
+        
+        corner = QtCore.Qt.Corner(corner_to_int[corner])
         QToaster.showMessage(parent, text, corner=corner, desktop=desktop)

@@ -20,6 +20,8 @@ class GoogleProvider():
         remove_new_line = to_boolean(config_reader["user_settings"]["remove_new_line"])
         google_credentials = config_reader["path_settings"]["credentials_google"]
         
+        notification_pos = config_reader["user_settings"]["notification_pos"]
+        
         creds = service_account.Credentials.from_service_account_file(google_credentials)
 
         path = './resources/temp/capture.png'
@@ -48,12 +50,12 @@ class GoogleProvider():
                     sleep(0.3)
                     pc.copy(sentences[i])
                     print(sentences[i])
-                    self.window_toast.showToaster(1, "Copiado exitoso.")
+                    self.window_toast.showToaster(notification_pos, "Copiado exitoso.")
             else:
                 pc.copy(result)
-                self.window_toast.showToaster(1, "Copiado exitoso.")
+                self.window_toast.showToaster(notification_pos, "Copiado exitoso.")
                 print(result)
                         
         except Exception as error:
-            self.window_toast.showToaster(1, "No se encontro texto a escanear.")
+            self.window_toast.showToaster(notification_pos, "No se encontro texto a escanear.")
             print(error)

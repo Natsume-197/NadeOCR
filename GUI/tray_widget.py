@@ -3,7 +3,7 @@ from GUI.crop_widget import CropWidget
 from GUI.options_widget import OptionsWidget
 from PySide6.QtWidgets import QSystemTrayIcon, QMenu
 from GUI.functions.keyboard_manager import KeyBoardManager
-from PySide6.QtGui import QIcon, QAction, QActionGroup, QKeySequence
+from PySide6.QtGui import QIcon, QAction, QKeySequence
 from GUI.functions.utils.extra import read_config_ini, to_boolean, edit_config_ini
 
 icon_path = "./resources/assets/icon.ico"

@@ -2,6 +2,7 @@ import platform
 import sys
 from GUI.tray_widget import SystemTray
 from PySide6.QtWidgets import QApplication 
+from GUI.options_widget import OptionsWidget
 
 class MainApp: 
     def __init__(self):
@@ -13,7 +14,8 @@ class MainApp:
         self._app = QApplication(sys.argv)
         # Second instance with Tray System 
         self.tray_system = SystemTray()
-    
+        # self.test = OptionsWidget(self)
+        
     # Keeps the main process running until exit
     def run(self):
         sys.exit(self._app.exec())
