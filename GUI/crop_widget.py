@@ -30,14 +30,14 @@ class CropWidget(QWidget):
                 background: black;
             }
         ''')
-        self.setWindowOpacity(0.2)
+        self.setWindowOpacity(0.3)
         self.show()
         self.setCursor(QtGui.QCursor(Qt.CrossCursor))
     
     def paintEvent(self, event):
         qp = QtGui.QPainter(self)
         qp.setPen(QtGui.QPen(QtGui.QColor('white'), 3))
-        qp.setBrush(QtGui.QColor(255, 255, 255, 150))
+        qp.setBrush(QtGui.QColor(205, 209, 228, 200))
         qp.drawRect(QtCore.QRect(self.begin, self.end))
 
     def mousePressEvent(self, event):

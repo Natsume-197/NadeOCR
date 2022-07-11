@@ -1,4 +1,5 @@
 from pynput import keyboard
+from pynput.keyboard import KeyCode
 from PySide6 import QtWidgets
 from PySide6.QtGui import QIcon, Qt
 from pynput.keyboard import Controller, Key
@@ -14,7 +15,7 @@ CURRENT_VALUE = ''
 ARRAY = []
 
 class ListenKeyboard(QThread):
-    
+            
     finished_signal = Signal(str)
     
     def __init__(self, parent=None):
@@ -44,12 +45,13 @@ class ListenKeyboard(QThread):
                     ARRAY.append("alt")
                 else:
                     pass
-                    print(key)
                 if key.char in keycode_to_string:
                     ARRAY.append(keycode_to_string[key.char])
                 else:
-                    ARRAY.append(key)  
-                # print(array)
+                    key = '{0}'.format(key)
+                    ARRAY.append(keycode_to_string[key])
+                    # print('{0} pressed'.format(key))
+                    print(ARRAY)
                 textLabel = '+' .join(map(str, ARRAY))
                 textLabel = textLabel.replace("'", "")
                 self.finished_signal.emit(textLabel)
