@@ -2,7 +2,7 @@ from PySide6 import QtWidgets
 from PySide6.QtGui import QFont, QIcon
 from GUI.input_hotkey_widget import MainHotkeyExecution
 from GUI.functions.utils.extra import read_config_ini, edit_config_ini
-from PySide6.QtWidgets import QSizePolicy, QSpacerItem, QWidget, QTabWidget, QLabel, QComboBox, QFrame, QCheckBox, QRadioButton, QPushButton
+from PySide6.QtWidgets import QFileDialog, QLineEdit, QSizePolicy, QSpacerItem, QWidget, QTabWidget, QLabel, QComboBox, QFrame, QCheckBox, QRadioButton, QPushButton
 
 class OptionsWidget(QWidget):
     def __init__(self, parent):
@@ -12,7 +12,7 @@ class OptionsWidget(QWidget):
         self.setFixedSize(420, 300)
         self.setWindowIcon(QIcon("./resources/assets/icon.ico"))
 
-        config_reader = read_config_ini()
+        self.config_reader = read_config_ini()
         
         layout = QtWidgets.QGridLayout()
         self.setLayout(layout)
@@ -28,10 +28,12 @@ class OptionsWidget(QWidget):
         
         # Create first tab layout
         self.tab_general.layout = QtWidgets.QGridLayout(self)
+        self.tab_advanced.layout = QtWidgets.QGridLayout(self)
         
         # Add tabs to main widget
         layout.addWidget(self.tabs)
         self.tab_general.setLayout(self.tab_general.layout)
+        self.tab_advanced.setLayout(self.tab_advanced.layout)
         
         # General Tab
         self.label_interface_user = QLabel("Interfaz de usuario")
@@ -56,7 +58,7 @@ class OptionsWidget(QWidget):
             "BottomRight" : "Esquina inferior derecha"
         }
         
-        notification_pos = config_reader["user_settings"]["notification_pos"]
+        notification_pos = self.config_reader["user_settings"]["notification_pos"]
         self.box_notification_pos = QComboBox()
         self.box_notification_pos.addItem("Esquina superior izquierda")
         self.box_notification_pos.addItem("Esquina superior derecha")
@@ -78,7 +80,7 @@ class OptionsWidget(QWidget):
         self.checkbox_run_startup = QCheckBox("Ejecutar al arranque", self)
         self.tab_general.layout.addWidget(self.checkbox_run_startup, 6, 0, 1, 2) 
         
-        hotkey = config_reader["user_settings"]["shortcut_key"]
+        hotkey = self.config_reader["user_settings"]["shortcut_key"]
 
         self.label_preference_hotkey = QLabel("Atajo para escaneo rápido")
         self.tab_general.layout.addWidget(self.label_preference_hotkey, 7, 0, 1, 2)
@@ -101,7 +103,7 @@ class OptionsWidget(QWidget):
         self.tab_general.layout.addWidget(self.radio_button_easyocr, 9, 3)   
         self.radio_button_easyocr.setDisabled(True)  
         
-        ocr_provider = config_reader["provider_settings"]["ocr_provider"]
+        ocr_provider = self.config_reader["provider_settings"]["ocr_provider"]
         
         # OCR client selection based on the config file
         if(ocr_provider == "Google"):
@@ -121,8 +123,34 @@ class OptionsWidget(QWidget):
         self.tab_general.layout.addWidget(self.button_accept, 16,2, 2, 1)
         self.tab_general.layout.addWidget(self.button_cancel, 16,3, 2, 2)
 
-        layout.setRowStretch(6, 2)  
+        # Tab Advanced
+        self.label_paths_user = QLabel("Rutas de archivos")
+        self.label_paths_user.setFont(QFont("Arial", 9, weight=QFont.Bold))
+        self.tab_advanced.layout.addWidget(self.label_paths_user, 0, 0, 1, 4)
+    
+        self.label_path_google = QLabel("Credenciales Google" )
+        self.tab_advanced.layout.addWidget(self.label_path_google, 1, 0, 1, 2)
+        
+        self.line_edit_google = QLineEdit(self)
+        self.tab_advanced.layout.addWidget(self.line_edit_google, 2, 0, 1, 4)
+        
+        self.button_accept_google = QPushButton("...", self)
+        self.tab_advanced.layout.addWidget(self.button_accept_google, 2, 4, 1, 1)
+        self.button_accept_google.clicked.connect(self.accept_button_path_google)
+
+        path_string_google = self.config_reader["path_settings"]["credentials_google"]
+        if(path_string_google.strip() == ''):
+            self.line_edit_google.setText("No se ha definido")
+        else:
+            self.line_edit_google.setText(path_string_google)
+
+        self.tab_advanced.layout.setRowStretch(15, 4)  
         self.show()
+        
+    def accept_button_path_google(self):
+        path_google_fdialog = QFileDialog.getOpenFileName(self, "Abrir archivo", "", "Credenciales (*.json)",  "")
+        self.line_edit_google.setText(path_google_fdialog[0])
+        edit_config_ini("path_settings", "credentials_google", path_google_fdialog[0])
         
     def accept_button(self):
         if self.radio_button_google.isChecked():

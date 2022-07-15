@@ -4,28 +4,42 @@ from time import sleep
 import pyperclip as pc
 from google.cloud import vision
 from GUI.toast_widget import QToaster
+from GUI.popup_widget import PopupWidget
 from google.oauth2 import service_account
-from GUI.functions.utils.extra import read_config_ini, to_boolean
+from GUI.functions.utils.extra import read_config_ini, to_boolean, edit_config_ini
 
 # kks = pykakasi.kakasi()
 
 class GoogleProvider():
-    
+
+    def set_credentials():
+        try:
+            config_reader = read_config_ini()
+            google_credentials = config_reader["path_settings"]["credentials_google"]
+            google_credentials = service_account.Credentials.from_service_account_file(google_credentials)
+        except FileNotFoundError:
+            edit_config_ini("path_settings", "credentials_google", "")
+            popup = PopupWidget()
+            popup.show_info_messagebox("error", "Archivo de credenciales Google no encontrado. Actualice la ruta desde opciones.")
+            
+        except Exception as e:
+            popup = PopupWidget()
+            popup.show_info_messagebox("error", "Archivo de credenciales Google no válido. Verifique el archivo.")
+            
+        return google_credentials
+        
     def scan_google(self):
         self.window_toast = QToaster()
-
+        
         config_reader = read_config_ini()
-        
         is_split_line = to_boolean(config_reader["user_settings"]["copy_by_line"])
-        remove_new_line = to_boolean(config_reader["user_settings"]["remove_new_line"])
-        google_credentials = config_reader["path_settings"]["credentials_google"]
-        
+        remove_new_line = to_boolean(config_reader["user_settings"]["remove_new_line"])        
         notification_pos = config_reader["user_settings"]["notification_pos"]
-        
-        creds = service_account.Credentials.from_service_account_file(google_credentials)
-
         path = './resources/temp/capture.png'
-        client = vision.ImageAnnotatorClient(credentials=creds)
+        
+        google_credentials = GoogleProvider.set_credentials()
+                
+        client = vision.ImageAnnotatorClient(credentials=google_credentials)
         
         with io.open(path, 'rb') as image_file:
             content = image_file.read()
@@ -59,3 +73,4 @@ class GoogleProvider():
         except Exception as error:
             self.window_toast.showToaster(notification_pos, "No se encontro texto a escanear.")
             print(error)
+        

@@ -14,7 +14,7 @@ class MainApp:
         self._app = QApplication(sys.argv)
         # Second instance with Tray System 
         self.tray_system = SystemTray()
-        # self.test = OptionsWidget(self)
+        self.test = OptionsWidget(self)
         
     # Keeps the main process running until exit
     def run(self):
@@ -24,7 +24,7 @@ class MainApp:
         if platform.system() == "Windows":
             import ctypes
             # Assigning AppUserModelID in order to fix taskbar's icons for Windows
-            id_app = 'natsume.nadeocr.0.3.0' 
+            id_app = 'natsume.nadeocr.0.4.0' 
             ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(id_app)
 
 if __name__ == '__main__':

@@ -62,7 +62,7 @@ class SystemTray(QSystemTrayIcon):
         self.shortcut_config()
         
         self.show()
-        
+                
     def shortcut_config(self):
         config_reader = read_config_ini()
         shortcut_key = config_reader["user_settings"]["shortcut_key"]

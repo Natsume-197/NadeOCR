@@ -1,5 +1,4 @@
 from pynput import keyboard
-from pynput.keyboard import KeyCode
 from PySide6 import QtWidgets
 from PySide6.QtGui import QIcon, Qt
 from pynput.keyboard import Controller, Key
