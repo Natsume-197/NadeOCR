@@ -3,7 +3,7 @@ from manga_ocr import MangaOcr
 from GUI.toast_widget import QToaster
 from GUI.functions.utils.extra import read_config_ini
 
-mocr = MangaOcr()
+# mocr = MangaOcr()
 path = './resources/temp/capture.png'
 
 class MangaOcrProvider():

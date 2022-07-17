@@ -14,7 +14,6 @@ class MainApp:
         self._app = QApplication(sys.argv)
         # Second instance with Tray System 
         self.tray_system = SystemTray()
-        self.test = OptionsWidget(self)
         
     # Keeps the main process running until exit
     def run(self):

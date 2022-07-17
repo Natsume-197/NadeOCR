@@ -9,7 +9,7 @@ class OptionsWidget(QWidget):
         self.parent = parent 
         super(OptionsWidget, self).__init__()
         self.setWindowTitle("Opciones")
-        self.setFixedSize(420, 300)
+        self.setFixedSize(425, 310)
         self.setWindowIcon(QIcon("./resources/assets/icon.ico"))
 
         self.config_reader = read_config_ini()
@@ -82,11 +82,11 @@ class OptionsWidget(QWidget):
         
         hotkey = self.config_reader["user_settings"]["shortcut_key"]
 
-        self.label_preference_hotkey = QLabel("Atajo para escaneo rápido")
+        self.label_preference_hotkey = QLabel("Atajo para escaneo")
         self.tab_general.layout.addWidget(self.label_preference_hotkey, 7, 0, 1, 2)
         self.parent.button_input_hotkey = QPushButton(self)
         self.parent.button_input_hotkey.setText(hotkey)
-        self.tab_general.layout.addWidget(self.parent.button_input_hotkey, 7, 2, 1 , 2)    
+        self.tab_general.layout.addWidget(self.parent.button_input_hotkey, 7, 1, 1 , 3)    
         self.parent.button_input_hotkey.clicked.connect(self.on_button_hotkey_click)
         
         self.label_preference_scan = QLabel("Motor de escaneo preferido" )
@@ -132,10 +132,10 @@ class OptionsWidget(QWidget):
         self.tab_advanced.layout.addWidget(self.label_path_google, 1, 0, 1, 2)
         
         self.line_edit_google = QLineEdit(self)
-        self.tab_advanced.layout.addWidget(self.line_edit_google, 2, 0, 1, 4)
+        self.tab_advanced.layout.addWidget(self.line_edit_google, 2, 0, 1, 5)
         
         self.button_accept_google = QPushButton("...", self)
-        self.tab_advanced.layout.addWidget(self.button_accept_google, 2, 4, 1, 1)
+        self.tab_advanced.layout.addWidget(self.button_accept_google, 2, 5, 1, 1)
         self.button_accept_google.clicked.connect(self.accept_button_path_google)
 
         path_string_google = self.config_reader["path_settings"]["credentials_google"]
@@ -144,7 +144,15 @@ class OptionsWidget(QWidget):
         else:
             self.line_edit_google.setText(path_string_google)
 
-        self.tab_advanced.layout.setRowStretch(15, 4)  
+        self.button_accept2 = QPushButton("Aceptar", self)
+        self.button_cancel2 = QPushButton("Cancelar", self)
+        self.button_accept2.clicked.connect(self.accept_button)
+        self.button_cancel2.clicked.connect(self.cancel_button)
+
+        self.tab_advanced.layout.addWidget(self.button_accept2, 16, 4, 2, 1)
+        self.tab_advanced.layout.addWidget(self.button_cancel2, 16, 5, 2, 1)
+        
+        self.tab_advanced.layout.setRowStretch(15, 5)  
         self.show()
         
     def accept_button_path_google(self):
