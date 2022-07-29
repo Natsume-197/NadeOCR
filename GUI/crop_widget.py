@@ -16,7 +16,8 @@ class CropWidget(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint | Qt.SubWindow )
-        self.showFullScreen()
+        self.setWindowState(Qt.WindowMaximized | Qt.WindowFullScreen)
+        # self.showFullScreen()
         root = tk.Tk()
         screen_width = root.winfo_screenwidth()
         screen_height = root.winfo_screenheight()
