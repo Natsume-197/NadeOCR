@@ -32,6 +32,6 @@ This project wouldn't be possible without:
 - Add support for running on startup (Windows/Linux).
 
 ## License
-The software is licensed under the GPLv3.
+This software is licensed under the GPLv3.
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/P5P3EID5N)
