@@ -1,6 +1,6 @@
 import sys
-from GUI.crop_widget import CropWidget
-from GUI.options_widget import OptionsWidget
+from GUI.widgets.crop_widget import CropWidget
+from GUI.widgets.options_widget import OptionsWidget
 from PySide6.QtWidgets import QSystemTrayIcon, QMenu
 from GUI.functions.keyboard_manager import KeyBoardManager
 from PySide6.QtGui import QIcon, QAction, QKeySequence
@@ -62,7 +62,8 @@ class SystemTray(QSystemTrayIcon):
         self.shortcut_config()
         
         self.show()
-                
+
+
     def shortcut_config(self):
         config_reader = read_config_ini()
         shortcut_key = config_reader["user_settings"]["shortcut_key"]

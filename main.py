@@ -1,8 +1,8 @@
-import platform
 import sys
-from GUI.tray_widget import SystemTray
+import platform
+from PyQt5 import QtWidgets
+from GUI.widgets.tray_widget import SystemTray
 from PySide6.QtWidgets import QApplication 
-from GUI.options_widget import OptionsWidget
 
 class MainApp: 
     def __init__(self):
@@ -25,12 +25,17 @@ class MainApp:
             # Assigning AppUserModelID in order to fix taskbar's icons for Windows
             id_app = 'natsume.nadeocr.0.5.0' 
             ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(id_app)
-            # Fix for various DPI related with cropping and scaling
+            # Fix for DPI scaling related with cropping and GUI in some machines 
             try:
-                ctypes.windll.shcore.SetProcessDpiAwareness(2) # if your windows version >= 8.1
+                ctypes.windll.shcore.SetProcessDpiAwareness(2) # Windows version >= 8.1
             except:
-                ctypes.windll.user32.SetProcessDPIAware() # win 8.0 or less 
+                ctypes.windll.user32.SetProcessDPIAware() # Windows 8.0 or less 
 
 if __name__ == '__main__':
+    # PySide6/PyQT6 has a bug where mouse coordinates are wrong if DPI is higher than 125% on Windows machines
+    # In order to fix it, I must use (temporaly) an instance of PyQT5 called app_crop
+    # That way, snipping the screen works as expected
+    app_crop = QtWidgets.QApplication(sys.argv)
+    # Main instance of NadeOCR
     app = MainApp()
     app.run()

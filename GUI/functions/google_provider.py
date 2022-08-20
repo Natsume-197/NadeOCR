@@ -3,8 +3,8 @@ import io
 from time import sleep
 import pyperclip as pc
 from google.cloud import vision
-from GUI.toast_widget import QToaster
-from GUI.popup_widget import PopupWidget
+from GUI.widgets.toast_widget import QToaster
+from GUI.widgets.popup_widget import PopupWidget
 from google.oauth2 import service_account
 from GUI.functions.utils.extra import read_config_ini, to_boolean, edit_config_ini
 

@@ -1,6 +1,6 @@
 from PySide6 import QtWidgets
 from PySide6.QtGui import QFont, QIcon
-from GUI.input_hotkey_widget import MainHotkeyExecution
+from GUI.widgets.input_hotkey_widget import MainHotkeyExecution
 from GUI.functions.utils.extra import read_config_ini, edit_config_ini
 from PySide6.QtWidgets import QFileDialog, QLineEdit, QSizePolicy, QSpacerItem, QWidget, QTabWidget, QLabel, QComboBox, QFrame, QCheckBox, QRadioButton, QPushButton
 
@@ -38,7 +38,7 @@ class OptionsWidget(QWidget):
         # General Tab
         self.label_interface_user = QLabel("Interfaz de usuario")
         self.label_interface_user.setFont(QFont("Arial", 9, weight=QFont.Bold))
-        self.tab_general.layout.addWidget(self.label_interface_user, 0, 0, 1, 4)
+        self.tab_general.layout.addWidget(self.label_interface_user, 0, 0, 1, 5)
         
         self.label_language = QLabel("Idioma")
         self.tab_general.layout.addWidget(self.label_language, 1, 0)
@@ -46,7 +46,7 @@ class OptionsWidget(QWidget):
         self.box_language = QComboBox()
         self.box_language.addItem("Español")
         self.box_language.addItem("Inglés")
-        self.tab_general.layout.addWidget(self.box_language, 1, 1, 1, 3)
+        self.tab_general.layout.addWidget(self.box_language, 1, 1, 1, 4)
         
         self.label_notification_pos = QLabel("Posición notificación")
         self.tab_general.layout.addWidget(self.label_notification_pos, 2, 0, 1, 2)
@@ -65,13 +65,13 @@ class OptionsWidget(QWidget):
         self.box_notification_pos.addItem("Esquina inferior izquierda")
         self.box_notification_pos.addItem("Esquina inferior derecha")
         self.box_notification_pos.setCurrentText(spanish_to_pos_text[notification_pos])
-        self.tab_general.layout.addWidget(self.box_notification_pos, 2, 1, 1, 3)
+        self.tab_general.layout.addWidget(self.box_notification_pos, 2, 1, 1, 5)
                 
         self.separatorLine = QFrame(frameShape=QFrame.HLine)   
         self.separatorLine.setLineWidth(0)
         self.separatorLine.setMidLineWidth(5)
         self.separatorLine.setStyleSheet("font: 9pt; color: grey;")
-        self.tab_general.layout.addWidget(self.separatorLine, 4, 0, 1, 4)
+        self.tab_general.layout.addWidget(self.separatorLine, 4, 0, 1, 5)
 
         self.label_preferences_user = QLabel("Preferencias")
         self.label_preferences_user.setFont(QFont("Arial", 9, weight=QFont.Bold))
@@ -86,22 +86,22 @@ class OptionsWidget(QWidget):
         self.tab_general.layout.addWidget(self.label_preference_hotkey, 7, 0, 1, 2)
         self.parent.button_input_hotkey = QPushButton(self)
         self.parent.button_input_hotkey.setText(hotkey)
-        self.tab_general.layout.addWidget(self.parent.button_input_hotkey, 7, 1, 1 , 3)    
+        self.tab_general.layout.addWidget(self.parent.button_input_hotkey, 7, 1, 1 , 4)    
         self.parent.button_input_hotkey.clicked.connect(self.on_button_hotkey_click)
         
         self.label_preference_scan = QLabel("Motor de escaneo preferido" )
         self.tab_general.layout.addWidget(self.label_preference_scan, 8, 0, 1, 3)
         
-        self.radio_button_google = QRadioButton("Google")
+        self.radio_button_google = QRadioButton("Google (recomendado)")
         self.tab_general.layout.addWidget(self.radio_button_google, 9, 0)
+
+        self.label_separator = QLabel("           ")
+        self.tab_general.layout.addWidget(self.label_separator, 9, 1)
         self.radio_button_mangaocr = QRadioButton("MangaOCR")
-        self.tab_general.layout.addWidget(self.radio_button_mangaocr, 9, 1)
-        self.radio_button_tesseract = QRadioButton("Tesseract")
-        self.tab_general.layout.addWidget(self.radio_button_tesseract, 9, 2)
-        self.radio_button_tesseract.setDisabled(True)       
-        self.radio_button_easyocr = QRadioButton("EasyOCR")
-        self.tab_general.layout.addWidget(self.radio_button_easyocr, 9, 3)   
-        self.radio_button_easyocr.setDisabled(True)  
+        self.tab_general.layout.addWidget(self.radio_button_mangaocr, 9, 2)
+        self.radio_button_paddleocr = QRadioButton("PaddleOCR")
+        self.tab_general.layout.addWidget(self.radio_button_paddleocr, 9, 3)
+        self.radio_button_paddleocr.setDisabled(True)         
         
         ocr_provider = self.config_reader["provider_settings"]["ocr_provider"]
         
@@ -152,6 +152,7 @@ class OptionsWidget(QWidget):
         self.tab_advanced.layout.addWidget(self.button_accept2, 16, 4, 2, 1)
         self.tab_advanced.layout.addWidget(self.button_cancel2, 16, 5, 2, 1)
         
+        self.tab_general.layout.setRowStretch(16, 5)  
         self.tab_advanced.layout.setRowStretch(15, 5)  
         self.show()
         
