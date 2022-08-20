@@ -1,5 +1,5 @@
 # NadeOCR
-An easy- and fast-to-use tool for scanning text anywhere with Google's Vision API and other third party services. This tool is mostly designed for Japanese learners, but should work for anyone else.
+An easy and fast-to-use tool for scanning text anywhere with Google's Vision API and other third party services. This tool is mostly designed for Japanese learners, but should work for anyone else.
 
 ## Features
 - Compatible with Linux and Windows.

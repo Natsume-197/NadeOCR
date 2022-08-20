@@ -3,14 +3,18 @@ import io
 from time import sleep
 import pyperclip as pc
 from google.cloud import vision
+from google.oauth2 import service_account
 from GUI.widgets.toast_widget import QToaster
 from GUI.widgets.popup_widget import PopupWidget
-from google.oauth2 import service_account
+from PySide6.QtCore import QCoreApplication
 from GUI.functions.utils.extra import read_config_ini, to_boolean, edit_config_ini
 
 # kks = pykakasi.kakasi()
 
 class GoogleProvider():
+    def __init__(self, parent):
+        self.parent = parent 
+        super(GoogleProvider, self).__init__()
 
     def set_credentials():
         try:
@@ -29,16 +33,16 @@ class GoogleProvider():
         return google_credentials
         
     def scan_google(self):
-        self.window_toast = QToaster()
-        
         config_reader = read_config_ini()
         is_split_line = to_boolean(config_reader["user_settings"]["copy_by_line"])
         remove_new_line = to_boolean(config_reader["user_settings"]["remove_new_line"])        
         notification_pos = config_reader["user_settings"]["notification_pos"]
         path = './resources/temp/capture.png'
         
-        google_credentials = GoogleProvider.set_credentials()
-                
+        google_credentials = GoogleProvider.set_credentials()       
+        if(google_credentials == ''):
+            return
+ 
         client = vision.ImageAnnotatorClient(credentials=google_credentials)
         
         with io.open(path, 'rb') as image_file:
@@ -64,13 +68,13 @@ class GoogleProvider():
                     sleep(0.3)
                     pc.copy(sentences[i])
                     print(sentences[i])
-                    self.window_toast.showToaster(notification_pos, "Copiado exitoso.")
+                    self.parent.window_toast.showToaster(notification_pos, "Copiado exitoso.")
             else:
                 pc.copy(result)
-                self.window_toast.showToaster(notification_pos, "Copiado exitoso.")
+                self.parent.window_toast.showToaster(notification_pos, "Copiado exitoso.")
                 print(result)
                         
         except Exception as error:
-            self.window_toast.showToaster(notification_pos, "No se encontro texto a escanear.")
+            self.parentwindow_toast.showToaster(notification_pos, "No se encontro texto a escanear.")
             print(error)
         

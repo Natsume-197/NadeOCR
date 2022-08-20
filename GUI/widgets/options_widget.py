@@ -2,7 +2,7 @@ from PySide6 import QtWidgets
 from PySide6.QtGui import QFont, QIcon
 from GUI.widgets.input_hotkey_widget import MainHotkeyExecution
 from GUI.functions.utils.extra import read_config_ini, edit_config_ini
-from PySide6.QtWidgets import QFileDialog, QLineEdit, QSizePolicy, QSpacerItem, QWidget, QTabWidget, QLabel, QComboBox, QFrame, QCheckBox, QRadioButton, QPushButton
+from PySide6.QtWidgets import QFileDialog, QLineEdit, QSizePolicy, QSpacerItem, QWidget, QTabWidget, QLabel, QComboBox, QFrame, QCheckBox, QRadioButton, QPushButton, QTextEdit
 
 class OptionsWidget(QWidget):
     def __init__(self, parent):
@@ -29,12 +29,14 @@ class OptionsWidget(QWidget):
         # Create first tab layout
         self.tab_general.layout = QtWidgets.QGridLayout(self)
         self.tab_advanced.layout = QtWidgets.QGridLayout(self)
-        
+        self.tab_about.layout = QtWidgets.QGridLayout(self)
+
         # Add tabs to main widget
         layout.addWidget(self.tabs)
         self.tab_general.setLayout(self.tab_general.layout)
         self.tab_advanced.setLayout(self.tab_advanced.layout)
-        
+        self.tab_about.setLayout(self.tab_about.layout)
+
         # General Tab
         self.label_interface_user = QLabel("Interfaz de usuario")
         self.label_interface_user.setFont(QFont("Arial", 9, weight=QFont.Bold))
@@ -46,7 +48,7 @@ class OptionsWidget(QWidget):
         self.box_language = QComboBox()
         self.box_language.addItem("Español")
         self.box_language.addItem("Inglés")
-        self.tab_general.layout.addWidget(self.box_language, 1, 1, 1, 4)
+        self.tab_general.layout.addWidget(self.box_language, 1, 1, 1, 5)
         
         self.label_notification_pos = QLabel("Posición notificación")
         self.tab_general.layout.addWidget(self.label_notification_pos, 2, 0, 1, 2)
@@ -71,7 +73,7 @@ class OptionsWidget(QWidget):
         self.separatorLine.setLineWidth(0)
         self.separatorLine.setMidLineWidth(5)
         self.separatorLine.setStyleSheet("font: 9pt; color: grey;")
-        self.tab_general.layout.addWidget(self.separatorLine, 4, 0, 1, 5)
+        self.tab_general.layout.addWidget(self.separatorLine, 4, 0, 1, 6)
 
         self.label_preferences_user = QLabel("Preferencias")
         self.label_preferences_user.setFont(QFont("Arial", 9, weight=QFont.Bold))
@@ -86,7 +88,7 @@ class OptionsWidget(QWidget):
         self.tab_general.layout.addWidget(self.label_preference_hotkey, 7, 0, 1, 2)
         self.parent.button_input_hotkey = QPushButton(self)
         self.parent.button_input_hotkey.setText(hotkey)
-        self.tab_general.layout.addWidget(self.parent.button_input_hotkey, 7, 1, 1 , 4)    
+        self.tab_general.layout.addWidget(self.parent.button_input_hotkey, 7, 1, 1 , 5)    
         self.parent.button_input_hotkey.clicked.connect(self.on_button_hotkey_click)
         
         self.label_preference_scan = QLabel("Motor de escaneo preferido" )
@@ -152,8 +154,22 @@ class OptionsWidget(QWidget):
         self.tab_advanced.layout.addWidget(self.button_accept2, 16, 4, 2, 1)
         self.tab_advanced.layout.addWidget(self.button_cancel2, 16, 5, 2, 1)
         
+
+        self.labelAbout = QLabel("<b>NadeOCR v1.0.0</b> (20/08/2022)<br>An easy and fast-to-use tool for scanning text anywhere with Google's Vision API and other third party services.<br><br>"
+            "This project wouldn't be possible without:<br>- Google's Vision API for detecting and recognising a wide variety of languages including, but not limited to, English, Japanese and Spanish.<br>- The awesome Manga-OCR model by Maciej Budyś for recognizing Japanese characters in manga. <br><br>"
+            "More information about this project can be found <a href='https://github.com/Natsume-197/NadeOCR'>here</a>.")
+        self.labelAbout.setWordWrap(True)
+        self.labelAbout.setOpenExternalLinks(True)
+        self.tab_about.layout.addWidget(self.labelAbout, 0, 0, 1, 6)
+
+        self.button_accept3 = QPushButton("Cerrar", self)
+        self.button_accept3.clicked.connect(self.cancel_button)
+        self.tab_about.layout.addWidget(self.button_accept3, 16, 5, 2, 1)
+
         self.tab_general.layout.setRowStretch(16, 5)  
         self.tab_advanced.layout.setRowStretch(15, 5)  
+        self.tab_about.layout.setRowStretch(15, 5)  
+
         self.show()
         
     def accept_button_path_google(self):

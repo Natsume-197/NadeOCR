@@ -9,8 +9,9 @@ from GUI.functions.google_provider import GoogleProvider
 from GUI.functions.mangaocr_provider import MangaOcrProvider
 
 class CropWidget(QWidget): 
-    def __init__(self):
+    def __init__(self, parent):
         super().__init__()
+        self.parent = parent 
 
         # Basic configuration
         self.setWindowTitle(' ')

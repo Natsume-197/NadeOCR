@@ -1,9 +1,14 @@
 import sys
+from manga_ocr import MangaOcr
+from PySide6.QtCore import QThreadPool, QCoreApplication
+from GUI.widgets.toast_widget import QToaster
 from GUI.widgets.crop_widget import CropWidget
+from GUI.functions.utils.worker import BaseWorker
 from GUI.widgets.options_widget import OptionsWidget
 from PySide6.QtWidgets import QSystemTrayIcon, QMenu
-from GUI.functions.keyboard_manager import KeyBoardManager
 from PySide6.QtGui import QIcon, QAction, QKeySequence
+from GUI.functions.keyboard_manager import KeyBoardManager
+
 from GUI.functions.utils.extra import read_config_ini, to_boolean, edit_config_ini
 
 icon_path = "./resources/assets/icon.ico"
@@ -12,9 +17,20 @@ keyboard_manager = KeyBoardManager()
 class SystemTray(QSystemTrayIcon):
     def __init__(self, parent=None):
         QSystemTrayIcon.__init__(self)
+
+        self.window_toast = QToaster()
+        self.ocrModelManga = None
+
+        """ 
+        self.threadpool = QThreadPool()
+        worker = BaseWorker(method)
+        worker.signals.result.connect(secondMethon)
+        self.threadpool.start(worker)
+        """
+
         self.setIcon(QIcon(icon_path))
         menu = QMenu(parent)
-         
+        
         # Available actions in the Menu 
         self._scan_action = menu.addAction("Escanear", self.on_scan_click)
         
@@ -60,10 +76,12 @@ class SystemTray(QSystemTrayIcon):
         self.activated.connect(self.on_icon_click)
         
         self.shortcut_config()
-        
+                
         self.show()
-
-
+        self.showMessage("Información","Por favor, espere. Cargando aplicación...")
+        self.ocrModelManga = MangaOcr()
+        self.showMessage("Información", "Aplicación lista para usarse.")
+        
     def shortcut_config(self):
         config_reader = read_config_ini()
         shortcut_key = config_reader["user_settings"]["shortcut_key"]
@@ -77,7 +95,7 @@ class SystemTray(QSystemTrayIcon):
             self.on_scan_click()   
             
     def on_scan_click(self):
-        self.window_crop = CropWidget()
+        self.window_crop = CropWidget(parent=self)
             
     def on_exit_click(self):
         sys.exit()
