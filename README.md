@@ -2,9 +2,11 @@
 An easy and fast to use tool for scan text anywhere using Google API Vision and other third party services. This tool is mostly desgined for japanese learners but even with that approach in mind, everyone can use it.
 
 ## Features
-- 
--
--
+- Compatible with Linux and Windows.
+- Copy your scanned text immediately in your clipboard.
+- Custom hotkeys for scan in a quick way in any place of your screen.
+- Support for a variety of models OCR including Google API Vision and Manga-OCR.
+- Specific configuration for removing new lines, copying line by line or use your own Regex filter.
 
 ## Download
 
@@ -24,6 +26,7 @@ This project will not be possible without:
 - Add support to [PaddleOCR]([https://github.com/PaddlePaddle/PaddleOCR).
 - Add multi language (English) support to PyQT GUI. 
 - Allow custom filters/colour/contrast for cropped images.
+- Add support to Regex.
 ### Low priority 
 - Add support for Android.
 - Add support to run on startup (Windows/Linux).
@@ -31,4 +34,4 @@ This project will not be possible without:
 ## License
 The software is licensed under GPLv3.
 
-<a href='https://ko-fi.com/P5P3EID5N' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi3.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/P5P3EID5N)
