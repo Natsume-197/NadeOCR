@@ -1,5 +1,3 @@
-<a href='https://ko-fi.com/supportkofi' target='_blank'><img height='35' style='border:0px;height:46px;' src='https://az743702.vo.msecnd.net/cdn/kofi3.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' />
-
 # NadeOCR
 An easy and fast to use tool for scan text anywhere using Google API Vision and other third party services. This tool is mostly desgined for japanese learners but even with that approach in mind, everyone can use it.
 
@@ -32,3 +30,5 @@ This project will not be possible without:
 
 ## License
 The software is licensed under GPLv3.
+
+<a href='https://ko-fi.com/P5P3EID5N' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://cdn.ko-fi.com/cdn/kofi3.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
