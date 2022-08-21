@@ -9,9 +9,10 @@ An easy and fast-to-use tool for scanning text anywhere with Google's Vision API
 - Settings for removing new lines, copying line by line or using your own Regex filter.
 
 ## Download
+For windows download the latest zip file [here](https://github.com/Natsume-197/NadeOCR/releases/tag/v1.0.0-stable). Decompress the file in the desired directory.
 
 ## How to build
-### PyPi
+### Distribution files
 You can build and generate distribution archives by using this command in the project's root:
 ```
 python -m build
@@ -20,7 +21,7 @@ python -m build
 ### Windows
 You can also generate an executable for any Windows machine higher than Windows 8 by using PyInstaller with this configuration:
 ```
-pyinstaller --noconfirm --onedir --windowed --icon "NadeOCR/nadeocr/resources/assets/icon.ico" --name "NadeOCR_v1.0.0" --clean --add-data "NadeOCR/nadeocr;nadeocr/" --additional-hooks-dir "NadeOCR/nadeocr/resources/hooks" --hidden-import "huggingface_hub.repository" --hidden-import "huggingface_hub.hf_api" --collect-data "torch" --copy-metadata "torch" --copy-metadata "tqdm" --copy-metadata "regex" --copy-metadata "requests" --copy-metadata "packaging" --copy-metadata "filelock" --copy-metadata "numpy" --copy-metadata "tokenizers" --copy-metadata "importlib" --collect-data "unidic_lite" --hidden-import "unidic_lite"  "NadeOCR/nadeocr/main.py"
+pyinstaller --noconfirm --onedir --windowed --icon "NadeOCR/nadeocr/resources/assets/icon.ico" --name "NadeOCR_v1.0.0" --clean --add-data "NadeOCR/nadeocr;nadeocr/" --additional-hooks-dir "NadeOCR/nadeocr/resources/hooks" --hidden-import "huggingface_hub.repository" --hidden-import "huggingface_hub.hf_api" --collect-data "torch" --copy-metadata "torch" --copy-metadata "tqdm" --copy-metadata "regex" --copy-metadata "requests" --copy-metadata "packaging" --copy-metadata "filelock" --copy-metadata "numpy" --copy-metadata "tokenizers" --copy-metadata "importlib" --collect-data "unidic_lite" --hidden-import "unidic_lite" --collect-data "manga_ocr" --collect-data "toml"  "NadeOCR/nadeocr/main.py"
 ```
 
 ## Contributing
@@ -44,6 +45,6 @@ This project wouldn't be possible without:
 - Add support for running on startup (Windows/Linux).
 
 ## License
-This software is licensed under the GPLv3 (see LICENSE) and uses third party libraries that are distributed under their own terms (see LICENSE-3RD-PARTY).
+This software is licensed under the GPLv3 (see [LICENSE) and uses third party libraries that are distributed under their own terms (see LICENSE-3RD-PARTY).
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/P5P3EID5N)
