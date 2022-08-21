@@ -1,15 +1,16 @@
+import os
 import io
 # import pykakasi
 from time import sleep
 import pyperclip as pc
 from google.cloud import vision
 from google.oauth2 import service_account
-from GUI.widgets.toast_widget import QToaster
-from GUI.widgets.popup_widget import PopupWidget
-from PySide6.QtCore import QCoreApplication
-from GUI.functions.utils.extra import read_config_ini, to_boolean, edit_config_ini
+from nadeocr.GUI.widgets.toast_widget import QToaster
+from nadeocr.GUI.widgets.popup_widget import PopupWidget
+from nadeocr.GUI.functions.utils.extra import read_config_ini, to_boolean, edit_config_ini, get_data
 
 # kks = pykakasi.kakasi()
+_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 class GoogleProvider():
     def __init__(self, parent):
@@ -37,7 +38,8 @@ class GoogleProvider():
         is_split_line = to_boolean(config_reader["user_settings"]["copy_by_line"])
         remove_new_line = to_boolean(config_reader["user_settings"]["remove_new_line"])        
         notification_pos = config_reader["user_settings"]["notification_pos"]
-        path = './resources/temp/capture.png'
+
+        path = get_data(_ROOT, "./../../resources/temp", "capture.png")
         
         google_credentials = GoogleProvider.set_credentials()       
         if(google_credentials == ''):

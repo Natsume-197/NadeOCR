@@ -1,6 +1,6 @@
 import keyboard
 from PySide6.QtCore import Signal, QObject
-from GUI.functions.utils.extra import read_config_ini
+from nadeocr.GUI.functions.utils.extra import read_config_ini
 
 # Listener for keyboard events using PySide6 and Signal
 class KeyBoardManager(QObject):

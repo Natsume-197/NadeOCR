@@ -1,6 +1,12 @@
+import os 
 import configparser
+from unicodedata import name
 
-path_config_ini = './settings/config.ini'
+_ROOT = os.path.abspath(os.path.dirname(__file__))
+def get_data(_ROOT, path, name_file):
+    return os.path.join(_ROOT, path, name_file)
+
+path_config_ini = get_data(_ROOT, "../../../settings", "config.ini")
 
 def read_config_ini():
     config_reader = configparser.ConfigParser()
@@ -19,4 +25,3 @@ def to_boolean(value):
     if str(value).lower() in ("true", "1"): return True
     if str(value).lower() in ("false", "0", "", "none", "[]"): return False
     raise Exception('Invalid value for boolean conversion: ' + str(value))
-

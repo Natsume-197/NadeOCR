@@ -3,9 +3,9 @@ from PySide6 import QtWidgets
 from PySide6.QtGui import QIcon, Qt
 from pynput.keyboard import Controller, Key
 from PySide6.QtCore import QThread, QObject, Signal
-from GUI.functions.utils.extra import edit_config_ini
+from nadeocr.GUI.functions.utils.extra import edit_config_ini
 from PySide6.QtWidgets import QWidget, QLabel, QPushButton
-from GUI.functions.utils.constants import keycode_to_string
+from nadeocr.GUI.functions.utils.constants import keycode_to_string
 
 SHIFT_STATE = False
 CONTROL_STATE = False

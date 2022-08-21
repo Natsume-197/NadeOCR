@@ -1,17 +1,17 @@
+import os
 import sys
 from manga_ocr import MangaOcr
-from PySide6.QtCore import QThreadPool, QCoreApplication
-from GUI.widgets.toast_widget import QToaster
-from GUI.widgets.crop_widget import CropWidget
-from GUI.functions.utils.worker import BaseWorker
-from GUI.widgets.options_widget import OptionsWidget
 from PySide6.QtWidgets import QSystemTrayIcon, QMenu
+from nadeocr.GUI.widgets.toast_widget import QToaster
+from nadeocr.GUI.widgets.crop_widget import CropWidget
 from PySide6.QtGui import QIcon, QAction, QKeySequence
-from GUI.functions.keyboard_manager import KeyBoardManager
+from nadeocr.GUI.widgets.options_widget import OptionsWidget
+from nadeocr.GUI.functions.keyboard_manager import KeyBoardManager
+from nadeocr.GUI.functions.utils.extra import read_config_ini, to_boolean, edit_config_ini, get_data
 
-from GUI.functions.utils.extra import read_config_ini, to_boolean, edit_config_ini
-
-icon_path = "./resources/assets/icon.ico"
+_ROOT = os.path.abspath(os.path.dirname(__file__))
+icon_path = get_data(_ROOT, "../../resources/assets", "icon.ico")
+print(icon_path)
 keyboard_manager = KeyBoardManager()
 
 class SystemTray(QSystemTrayIcon):

@@ -1,7 +1,7 @@
 from PySide6 import QtWidgets
 from PySide6.QtGui import QFont, QIcon
-from GUI.widgets.input_hotkey_widget import MainHotkeyExecution
-from GUI.functions.utils.extra import read_config_ini, edit_config_ini
+from nadeocr.GUI.widgets.input_hotkey_widget import MainHotkeyExecution
+from nadeocr.GUI.functions.utils.extra import read_config_ini, edit_config_ini
 from PySide6.QtWidgets import QFileDialog, QLineEdit, QSizePolicy, QSpacerItem, QWidget, QTabWidget, QLabel, QComboBox, QFrame, QCheckBox, QRadioButton, QPushButton, QTextEdit
 
 class OptionsWidget(QWidget):

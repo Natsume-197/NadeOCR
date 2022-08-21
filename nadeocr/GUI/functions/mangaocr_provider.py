@@ -1,7 +1,10 @@
+import os
 import pyperclip as pc
-from GUI.functions.utils.extra import read_config_ini
+from nadeocr.GUI.functions.utils.extra import read_config_ini, get_data
 
-path = './resources/temp/capture.png'
+_ROOT = os.path.abspath(os.path.dirname(__file__))
+
+path = get_data(_ROOT, "./../../resources/temp", "capture.png")
 
 class MangaOcrProvider():
     def __init__(self, parent):

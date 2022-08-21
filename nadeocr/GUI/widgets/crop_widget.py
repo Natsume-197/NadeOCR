@@ -4,9 +4,11 @@ from os import path
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QLabel
-from GUI.functions.utils.extra import read_config_ini
-from GUI.functions.google_provider import GoogleProvider
-from GUI.functions.mangaocr_provider import MangaOcrProvider
+from nadeocr.GUI.functions.utils.extra import read_config_ini, get_data
+from nadeocr.GUI.functions.google_provider import GoogleProvider
+from nadeocr.GUI.functions.mangaocr_provider import MangaOcrProvider
+
+_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 class CropWidget(QWidget): 
     def __init__(self, parent):
@@ -85,16 +87,15 @@ class CropWidget(QWidget):
         #self.label = QLabel(pixmap=output_pixmap)
         #self.label.show()
 
-        abspath = os.path.abspath(sys.argv[0])
-        dname = os.path.dirname(abspath)
-        resources_images_dir = os.path.join(dname, "resources", "temp")
+        resources_images_dir = get_data(_ROOT, "./../../resources/temp", "")
 
-        if not path.isfile(resources_images_dir):
+        if not path.isfile(resources_images_dir):   
             os.makedirs(resources_images_dir, exist_ok=True)
 
         try:
             # Saving temp image in resources/temp
-            output_pixmap.save(os.path.join(resources_images_dir, "capture.png"))
+            path_route = get_data(_ROOT, "./../../resources/temp", "capture.png")
+            output_pixmap.save(path_route)
             
             # Provider selection 
             config_reader = read_config_ini()
