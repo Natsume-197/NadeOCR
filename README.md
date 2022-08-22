@@ -8,8 +8,22 @@ An easy and fast-to-use tool for scanning text anywhere with Google's Vision API
 - Supports a variety of OCR models, including Google's Vision API and Manga-OCR.
 - Settings for removing new lines, copying line by line or using your own Regex filter.
 
-## Download
-For windows download the latest zip file [here](https://github.com/Natsume-197/NadeOCR/releases/tag/v1.0.0-stable). Decompress the file in the desired directory.
+## Installation
+### Windows
+- Download the latest zip file [here](https://github.com/Natsume-197/NadeOCR/releases/tag/v1.0.0-stable). 
+- Decompress the file in the desired directory.
+- Open the extracted folder and execute `NadeOCR.exe`.
+
+### PIP (Windows/Linux)
+- To install NadeOCR, run in command line:
+```
+pip install nadeocr
+```
+
+- To execute NadeOCR, run in command line:
+```
+nadeocr
+```
 
 ## How to build
 ### Distribution files
