@@ -1,5 +1,6 @@
 import os
 import sys
+import requests
 from manga_ocr import MangaOcr
 from PySide6.QtWidgets import QSystemTrayIcon, QMenu
 from nadeocr.GUI.widgets.toast_widget import QToaster
@@ -10,8 +11,6 @@ from nadeocr.GUI.functions.keyboard_manager import KeyBoardManager
 from nadeocr.GUI.functions.utils.extra import read_config_ini, to_boolean, edit_config_ini, get_data
 
 _ROOT = os.path.abspath(os.path.dirname(__file__))
-icon_path = get_data(_ROOT, "../../resources/assets", "icon.ico")
-print(icon_path)
 keyboard_manager = KeyBoardManager()
 
 class SystemTray(QSystemTrayIcon):
@@ -20,6 +19,7 @@ class SystemTray(QSystemTrayIcon):
 
         self.window_toast = QToaster()
         self.ocrModelManga = None
+        icon_path = get_data(_ROOT, "../../resources/assets", "icon_loading.ico")
 
         """ 
         self.threadpool = QThreadPool()
@@ -80,8 +80,29 @@ class SystemTray(QSystemTrayIcon):
         self.show()
         self.showMessage("Información","Por favor, espere. Cargando aplicación...")
         self.ocrModelManga = MangaOcr()
+        icon_path = get_data(_ROOT, "../../resources/assets", "icon.ico")
+        self.setIcon(QIcon(icon_path))
         self.showMessage("Información", "Aplicación lista para usarse.")
-        
+
+        # Check latest update for NadeOCR from Github
+        current_version= config_reader["user_settings"]["current_version"]
+        self.check_latest_update(current_version)
+
+
+    def check_latest_update(self, current_version):
+        try:
+            response = requests.get("https://api.github.com/repos/Natsume-197/NadeOCR/releases/latest")
+        except Exception as e:
+            return
+
+        self.latest = int(response.json()["name"].split("v",1)[1].strip().replace(".", ""))
+        self.current_version = int(current_version.strip().replace(".",""))
+
+        if(self.latest > self.current_version):
+            self.showMessage("Información", "Hay una nueva actualización de NadeOCR disponible en Github.")
+        elif(self.latest == current_version):
+            pass
+
     def shortcut_config(self):
         config_reader = read_config_ini()
         shortcut_key = config_reader["user_settings"]["shortcut_key"]

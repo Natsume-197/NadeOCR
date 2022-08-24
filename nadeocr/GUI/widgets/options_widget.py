@@ -1,8 +1,11 @@
+import os
 from PySide6 import QtWidgets
 from PySide6.QtGui import QFont, QIcon
 from nadeocr.GUI.widgets.input_hotkey_widget import MainHotkeyExecution
-from nadeocr.GUI.functions.utils.extra import read_config_ini, edit_config_ini
+from nadeocr.GUI.functions.utils.extra import read_config_ini, edit_config_ini, get_data
 from PySide6.QtWidgets import QFileDialog, QLineEdit, QSizePolicy, QSpacerItem, QWidget, QTabWidget, QLabel, QComboBox, QFrame, QCheckBox, QRadioButton, QPushButton, QTextEdit
+
+_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 class OptionsWidget(QWidget):
     def __init__(self, parent):
@@ -10,7 +13,9 @@ class OptionsWidget(QWidget):
         super(OptionsWidget, self).__init__()
         self.setWindowTitle("Opciones")
         self.setFixedSize(425, 310)
-        self.setWindowIcon(QIcon("./resources/assets/icon.ico"))
+        icon_path = get_data(_ROOT, "../../resources/assets", "icon.ico")
+
+        self.setWindowIcon(QIcon(icon_path))
 
         self.config_reader = read_config_ini()
         
@@ -199,4 +204,3 @@ class OptionsWidget(QWidget):
          
     def on_button_hotkey_click(self):
         self.input_hotkey_window = MainHotkeyExecution(parent=self.parent)
-        

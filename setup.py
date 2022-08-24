@@ -1,7 +1,7 @@
 from setuptools import setup, find_namespace_packages
 
 setup(name="nadeocr",  
-    version="0.5.0",  
+    version="1.0.1",  
     author="Natsume",  
     author_email='jonathan.197ariza@gmail.com',  
     license="GPLv3",  

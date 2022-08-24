@@ -1,17 +1,19 @@
 import sys
 import platform
 from PyQt5 import QtWidgets
-from nadeocr.GUI.widgets.tray_widget import SystemTray
 from PySide6.QtWidgets import QApplication 
+from nadeocr.GUI.widgets.tray_widget import SystemTray
 
 class MainApp: 
     def __init__(self):
         # OS specific setup during application startup
         self.__os_specific_setup()
+
         # Keep the app running after the last window closed
         QApplication.setQuitOnLastWindowClosed(False) 
         # Main instance of NadeOCR
         self._app = QApplication(sys.argv)
+
         # Second instance with Tray System 
         self.tray_system = SystemTray()
         
@@ -23,7 +25,7 @@ class MainApp:
         if platform.system() == "Windows":
             import ctypes
             # Assigning AppUserModelID in order to fix taskbar's icons for Windows
-            id_app = 'natsume.nadeocr.0.5.0' 
+            id_app = 'natsume.nadeocr.1.0.1'
             ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(id_app)
             # Fix for DPI scaling related with cropping and GUI in some machines 
             try:
@@ -36,9 +38,10 @@ def run():
     # In order to fix it, I must use (temporaly) an instance of PyQT5 called app_crop
     # That way, snipping the screen works as expected
     app_crop = QtWidgets.QApplication(sys.argv)
-
+    
     # Main instance of NadeOCR
     app = MainApp()
+    
     app.run()
 
 if __name__ == '__main__':

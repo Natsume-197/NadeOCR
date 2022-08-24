@@ -14,6 +14,8 @@ An easy and fast-to-use tool for scanning text anywhere with Google's Vision API
 - Decompress the file in the desired directory.
 - Open the extracted folder and execute `NadeOCR.exe`.
 
+Note: you *must* have your google credentiales file `credentials.json` in order to use Google provider. More information [here](https://cloud.google.com/vision). 
+
 ### PIP (Windows/Linux)
 - To install NadeOCR, run in command line:
 ```
