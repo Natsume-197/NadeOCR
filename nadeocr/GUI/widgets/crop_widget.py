@@ -27,7 +27,6 @@ class CropWidget(QWidget):
         self.setWindowFlags(
             Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint | Qt.SubWindow
         )
-        self.setWindowState(Qt.WindowMaximized | Qt.WindowFullScreen)
         self.setStyleSheet("background:transparent;")
         self.setCursor(QtGui.QCursor(Qt.CrossCursor))
 
@@ -65,9 +64,8 @@ class CropWidget(QWidget):
         self.width = total_width
         self.height = total_height
 
+        self.show()
         self.setGeometry(self.x, self.y, self.width, self.height)
-
-        self.showFullScreen()
 
     def paintEvent(self, event):
         trans = QtGui.QColor(0, 0, 0, 200)

@@ -99,7 +99,7 @@ class GoogleProvider:
                 print(result)
 
         except Exception as error:
-            self.parentwindow_toast.showToaster(
+            self.parent.window_toast.showToaster(
                 notification_pos, "No se encontro texto a escanear."
             )
             print(error)
