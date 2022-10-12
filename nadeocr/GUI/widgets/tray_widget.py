@@ -91,7 +91,7 @@ class SystemTray(QSystemTrayIcon):
 
         self.show()
         self.showMessage("Información", "Por favor, espere. Cargando aplicación...")
-        # self.ocrModelManga = MangaOcr()
+        self.ocrModelManga = MangaOcr()
         icon_path = get_data(_ROOT, "../../resources/assets", "icon.ico")
         self.setIcon(QIcon(icon_path))
         self.showMessage("Información", "Aplicación lista para usarse.")
